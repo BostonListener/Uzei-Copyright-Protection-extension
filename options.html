@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Uzei - Literature Review - Settings</title>
+    <style>
+        /* Main layout styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 32px;
+            background: #f8f9fa;
+            color: #212529;
+        }
+        
+        /* Header section */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .header h1 {
+            color: #495057;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: #6c757d;
+            font-size: 16px;
+        }
+        
+        /* Connection information card */
+        .connection-info {
+            background: #e7f3ff;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .connection-info h3 {
+            margin-top: 0;
+            color: #0c5460;
+        }
+        
+        .connection-info p {
+            margin-bottom: 8px;
+            color: #0c5460;
+        }
+        
+        .webapp-url {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            background: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: 1px solid #bee5eb;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        /* Settings cards */
+        .card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 16px;
+            color: #495057;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 8px;
+        }
+        
+        /* Form elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+        
+        .form-text {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 4px;
+        }
+        
+        /* Checkbox styles */
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .form-check-input {
+            margin-right: 8px;
+        }
+        
+        .form-check-label {
+            font-size: 14px;
+            color: #495057;
+        }
+        
+        /* Button styles */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        /* Alert styles */
+        .alert {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        /* Connection status indicator */
+        .connection-status {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-connected {
+            background-color: #28a745;
+        }
+        
+        .status-disconnected {
+            background-color: #dc3545;
+        }
+        
+        .status-unknown {
+            background-color: #ffc107;
+        }
+        
+        /* Footer styles */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        /* Login required notification */
+        .login-required {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        
+        .login-required h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+        
+        .login-required p {
+            color: #856404;
+            margin-bottom: 12px;
+        }
+        
+        /* Web app link button */
+        .btn-open-webapp {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-open-webapp:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header section -->
+    <div class="header">
+        <h1>Uzei - Literature Review</h1>
+        <p>Configure your extension settings</p>
+    </div>
+
+    <!-- Alert container for status messages -->
+    <div id="alert-container"></div>
+
+    <!-- Connection information card -->
+    <div class="connection-info">
+        <h3>🔗 Connected to Uzei Literature Review App</h3>
+        <p>This extension connects to your literature review web application at:</p>
+        <div class="webapp-url">https://uzei.boslis.com</div>
+        <p style="margin-top: 12px; font-size: 13px;">No configuration needed - just log in to the web app to use the extension!</p>
+        
+        <!-- Connection status indicator -->
+        <div class="connection-status" id="connection-status">
+            <div class="status-indicator status-unknown"></div>
+            <span>Connection status unknown - click "Test Connection" to check</span>
+        </div>
+        
+        <!-- Connection test buttons -->
+        <div style="margin-top: 16px;">
+            <button class="btn btn-secondary" id="test-connection">Test Connection</button>
+            <a href="https://uzei.boslis.com" target="_blank" class="btn-open-webapp" style="margin-left: 8px;">Open Web App</a>
+        </div>
+    </div>
+
+    <!-- Extension behavior settings -->
+    <div class="card">
+        <h3>⚙️ Extension Behavior</h3>
+        
+        <!-- Auto-extract setting -->
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="auto-extract" checked>
+            <label class="form-check-label" for="auto-extract">
+                Automatically analyze pages when they load
+            </label>
+        </div>
+        
+        <!-- Notifications setting -->
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="show-notifications" checked>
+            <label class="form-check-label" for="show-notifications">
+                Show notifications when content is added to projects
+            </label>
+        </div>
+        
+        <!-- Badge indicators setting -->
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="show-badges" checked>
+            <label class="form-check-label" for="show-badges">
+                Show badge indicators on extension icon
+            </label>
+        </div>
+        
+        <!-- Context menu setting -->
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="context-menu" checked>
+            <label class="form-check-label" for="context-menu">
+                Enable right-click context menu
+            </label>
+        </div>
+        
+        <!-- Multi-tab processing setting -->
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enable-multi-tab" checked>
+            <label class="form-check-label" for="enable-multi-tab">
+                Enable multi-tab batch processing
+            </label>
+        </div>
+    </div>
+
+    <!-- Content extraction settings -->
+    <div class="card">
+        <h3>🔧 Content Extraction Settings</h3>
+        
+        <!-- Minimum content length setting -->
+        <div class="form-group">
+            <label class="form-label" for="min-content-length">Minimum content length:</label>
+            <input type="number" class="form-control" id="min-content-length" min="100" max="5000" value="200">
+            <div class="form-text">
+                Pages with less content than this will be marked as invalid for analysis.
+            </div>
+        </div>
+        
+        <!-- Maximum content length setting -->
+        <div class="form-group">
+            <label class="form-label" for="max-content-length">Maximum content length:</label>
+            <input type="number" class="form-control" id="max-content-length" min="10000" max="100000" value="100000">
+            <div class="form-text">
+                Content longer than this will be truncated to avoid API limits.
+            </div>
+        </div>
+    </div>
+
+    <!-- How to use guide -->
+    <div class="card">
+        <h3>📖 How to Use</h3>
+        
+        <!-- Getting started instructions -->
+        <div class="alert alert-info">
+            <strong>Getting Started:</strong>
+            <ol style="margin: 8px 0 0 16px;">
+                <li>Log in to the Uzei Literature Review web app (click "Open Web App" above)</li>
+                <li>Create or select a project in the web app</li>
+                <li>Use the extension icon on any webpage to add content to your projects</li>
+                <li>Use right-click context menus for quick access</li>
+                <li>Try the multi-tab feature to process multiple pages at once</li>
+            </ol>
+        </div>
+        
+        <!-- Extension features -->
+        <p><strong>Extension Features:</strong></p>
+        <ul>
+            <li>📄 <strong>Content Analysis:</strong> Automatically extracts and analyzes webpage content</li>
+            <li>📑 <strong>PDF Support:</strong> Can process PDF documents opened in the browser</li>
+            <li>📊 <strong>Multi-tab Processing:</strong> Add multiple tabs to your literature review at once</li>
+            <li>✅ <strong>Smart Validation:</strong> Badge indicators show which tabs have valid content</li>
+            <li>🔄 <strong>Session Sync:</strong> Automatically detects when you're logged in</li>
+            <li>📝 <strong>Batch Confirmation:</strong> Choose whether to close successfully processed tabs</li>
+        </ul>
+        
+        <!-- Supported content types -->
+        <p><strong>Supported Content:</strong></p>
+        <p>Works best with article-style content including research papers, blog posts, news articles, documentation pages, and PDF documents.</p>
+        
+        <!-- Literature Review Workflow -->
+        <p><strong>Literature Review Workflow:</strong></p>
+        <p>Perfect for researchers who open 30-40 paper tabs. The extension processes each tab and gives you the option to close successfully processed ones, keeping you organized and focused.</p>
+    </div>
+
+    <!-- Save and reset buttons -->
+    <div style="text-align: center; margin: 32px 0;">
+        <button class="btn btn-primary" id="save-settings">💾 Save Settings</button>
+        <button class="btn btn-secondary" id="reset-settings">🔄 Reset to Defaults</button>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Uzei - Literature Review Extension v2.1</p>
+        <p>Connected to: <strong>https://uzei.boslis.com</strong></p>
+    </div>
+
+    <!-- Load JavaScript -->
+    <script src="options.js"></script>
+</body>
+</html>

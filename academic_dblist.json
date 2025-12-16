@@ -1,0 +1,218 @@
+{
+  "blacklist": {
+    "description": "Subscription-based academic databases and publishers - content collection should be blocked",
+    "major_publishers": {
+      "elsevier_relx": [
+        "sciencedirect.com",
+        "www.sciencedirect.com",
+        "scopus.com",
+        "www.scopus.com",
+        "cell.com",
+        "www.cell.com",
+        "thelancet.com",
+        "www.thelancet.com",
+        "elsevier.com"
+      ],
+      "springer_nature": [
+        "link.springer.com",
+        "springerlink.com",
+        "springer.com",
+        "nature.com",
+        "www.nature.com",
+        "biomedcentral.com",
+        "palgrave.com",
+        "www.palgrave.com"
+      ],
+      "wiley": [
+        "onlinelibrary.wiley.com",
+        "wiley.com"
+      ],
+      "taylor_francis": [
+        "tandfonline.com",
+        "www.tandfonline.com",
+        "taylorfrancis.com",
+        "www.taylorfrancis.com",
+        "routledge.com",
+        "www.routledge.com"
+      ],
+      "sage": [
+        "journals.sagepub.com",
+        "uk.sagepub.com",
+        "sagepub.com"
+      ]
+    },
+    "university_presses": {
+      "oxford": [
+        "academic.oup.com",
+        "oup.com",
+        "oxfordjournals.org",
+        "global.oup.com"
+      ],
+      "cambridge": [
+        "cambridge.org",
+        "www.cambridge.org"
+      ]
+    },
+    "citation_databases": [
+      "jstor.org",
+      "www.jstor.org",
+      "webofscience.com",
+      "www.webofscience.com",
+      "clarivate.com",
+      "proquest.com",
+      "www.proquest.com",
+      "search.proquest.com",
+      "search.ebscohost.com",
+      "ebscohost.com"
+    ],
+    "engineering_technical": {
+      "ieee": [
+        "ieeexplore.ieee.org",
+        "ieee.org"
+      ],
+      "acm": [
+        "dl.acm.org",
+        "acm.org"
+      ],
+      "asme": [
+        "asmedigitalcollection.asme.org",
+        "asme.org"
+      ],
+      "asce": [
+        "ascelibrary.org",
+        "asce.org"
+      ],
+      "iet": [
+        "digital-library.theiet.org",
+        "theiet.org"
+      ]
+    },
+    "science_societies": {
+      "acs": [
+        "pubs.acs.org",
+        "acs.org"
+      ],
+      "aps": [
+        "journals.aps.org",
+        "link.aps.org",
+        "aps.org"
+      ],
+      "aip": [
+        "aip.scitation.org",
+        "pubs.aip.org",
+        "aip.org"
+      ],
+      "iop": [
+        "iopscience.iop.org",
+        "iop.org"
+      ],
+      "rsc": [
+        "pubs.rsc.org",
+        "rsc.org"
+      ],
+      "royal_society": [
+        "royalsocietypublishing.org"
+      ],
+      "aaas": [
+        "science.org",
+        "www.science.org",
+        "sciencemag.org"
+      ],
+      "osa_optica": [
+        "opg.optica.org",
+        "optica.org",
+        "osa.org"
+      ],
+      "spie": [
+        "spiedigitallibrary.org",
+        "spie.org"
+      ]
+    },
+    "medical_health": [
+      "jamanetwork.com",
+      "bmj.com",
+      "www.bmj.com",
+      "nejm.org",
+      "www.nejm.org",
+      "thelancet.com",
+      "liebertpub.com",
+      "karger.com",
+      "www.karger.com",
+      "lww.com",
+      "journals.lww.com"
+    ],
+    "business_social_sciences": [
+      "emerald.com",
+      "www.emerald.com",
+      "emeraldinsight.com"
+    ],
+    "other_databases": [
+      "worldcat.org",
+      "igi-global.com",
+      "thieme-connect.com",
+      "thieme.com",
+      "wolterskluwer.com",
+      "ovid.com",
+      "inderscience.com",
+      "worldscientific.com",
+      "iospress.com",
+      "degruyter.com"
+    ]
+  },
+  "allowlist": {
+    "description": "Open access platforms - content collection is allowed",
+    "preprint_servers": [
+      "arxiv.org",
+      "biorxiv.org",
+      "medrxiv.org",
+      "chemrxiv.org",
+      "psyarxiv.com",
+      "ssrn.com",
+      "preprints.org"
+    ],
+    "open_access_publishers": [
+      "mdpi.com",
+      "www.mdpi.com",
+      "plos.org",
+      "journals.plos.org",
+      "plosone.org",
+      "frontiersin.org",
+      "www.frontiersin.org",
+      "hindawi.com",
+      "www.hindawi.com",
+      "peerj.com",
+      "elifesciences.org",
+      "f1000research.com",
+      "scielo.org",
+      "pensoft.net",
+      "copernicus.org"
+    ],
+    "open_access_repositories": [
+      "doaj.org",
+      "europepmc.org",
+      "pmc.ncbi.nlm.nih.gov",
+      "core.ac.uk",
+      "openaire.eu",
+      "zenodo.org"
+    ],
+    "institutional_repositories": [
+      "researchgate.net",
+      "academia.edu"
+    ]
+  },
+  "conditional": {
+    "description": "Domains with mixed open/paywalled content - implement based on your requirements",
+    "mixed_content": [
+      "pubmed.ncbi.nlm.nih.gov",
+      "ncbi.nlm.nih.gov",
+      "scholar.google.com",
+      "semanticscholar.org"
+    ]
+  },
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2025-12-01",
+    "note": "This list includes major subscription-based academic databases. Many publishers have hybrid models with some open access content, but the domains listed in 'blacklist' are predominantly subscription-based.",
+    "disclaimer": "Check with your institution's library about licensing agreements before implementing strict blocks."
+  }
+}

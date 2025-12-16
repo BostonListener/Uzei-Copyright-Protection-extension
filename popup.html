@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        /* Main popup layout */
+        body {
+            width: 450px;
+            margin: 0;
+            padding: 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 14px;
+            background: #f8f9fa;
+            transition: min-height 0.3s ease;
+        }
+        
+        /* Single tab mode - compact height */
+        body.single-mode {
+            min-height: 400px;
+        }
+
+        /* Multi-tab mode - taller to accommodate tab list and controls */
+        body.multi-mode {
+            min-height: 600px;
+        }
+
+        /* Header section with logo and login status */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+        
+        .header h3 {
+            margin: 0;
+            color: #495057;
+            font-size: 16px;
+        }
+        
+        /* Login status indicator */
+        .login-status {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .login-status.logged-in {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .login-status.logged-out {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Mode toggle buttons */
+        .mode-toggle {
+            display: flex;
+            background: #e9ecef;
+            border-radius: 6px;
+            padding: 2px;
+            margin-bottom: 16px;
+        }
+        
+        .mode-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .mode-btn.active {
+            background: #007bff;
+            color: white;
+        }
+        
+        .mode-btn:not(.active) {
+            color: #6c757d;
+        }
+        
+        .mode-btn:not(.active):hover {
+            background: #dee2e6;
+        }
+        
+        /* Multi-tab section */
+        .tab-list-section {
+            display: none;
+        }
+        
+        .tab-list-section.active {
+            display: block;
+        }
+        
+        /* Tab list controls */
+        .tab-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .tab-count {
+            font-size: 13px;
+            color: #6c757d;
+        }
+        
+        .batch-controls {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+            border: 1px solid #ced4da;
+            background: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .btn-sm:hover {
+            background: #f8f9fa;
+        }
+        
+        /* Tab list container */
+        .tab-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background: white;
+            margin-bottom: 16px;
+        }
+        
+        /* Individual tab items */
+        .tab-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f3f4;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .tab-item:last-child {
+            border-bottom: none;
+        }
+        
+        .tab-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .tab-item.invalid {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .tab-item.invalid:hover {
+            background: transparent;
+        }
+        
+        /* Tab item components */
+        .tab-checkbox {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .tab-checkbox:disabled {
+            cursor: not-allowed;
+        }
+        
+        .tab-favicon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        
+        .tab-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .tab-title {
+            font-weight: 500;
+            color: #212529;
+            font-size: 13px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .tab-url {
+            color: #6c757d;
+            font-size: 11px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Tab status indicators */
+        .tab-status {
+            flex-shrink: 0;
+            margin-left: 8px;
+            font-size: 11px;
+        }
+        
+        .status-valid {
+            color: #28a745;
+        }
+        
+        .status-invalid {
+            color: #dc3545;
+        }
+        
+        .status-unknown {
+            color: #ffc107;
+        }
+        
+        /* Single tab section */
+        .single-tab-section {
+            display: block;
+        }
+        
+        .single-tab-section.active {
+            display: block;
+        }
+        
+        /* Content preview card */
+        .content-preview {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .content-title {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 8px;
+            font-size: 15px;
+            line-height: 1.3;
+        }
+        
+        .content-meta {
+            color: #6c757d;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .content-preview-text {
+            color: #495057;
+            font-size: 13px;
+            line-height: 1.4;
+            max-height: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Form elements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #495057;
+            font-size: 13px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 13px;
+            box-sizing: border-box;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #80bdff;
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+        
+        /* Button styles */
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-primary:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            margin-top: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .btn-batch {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-batch:hover {
+            background-color: #1e7e34;
+        }
+        
+        .btn-batch:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        /* Status message styles */
+        .status {
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+        
+        .status-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-loading {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #0c5460;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Settings link */
+        .settings-link {
+            text-align: center;
+            margin-top: 12px;
+        }
+        
+        .settings-link a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        
+        .settings-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Invalid content indicator */
+        .invalid-content {
+            color: #dc3545;
+            font-size: 12px;
+            font-style: italic;
+        }
+        
+        /* Status container */
+        #status-container {
+            margin-top: 12px;
+            margin-bottom: 8px;
+        }
+        
+        /* Batch processing progress */
+        .batch-progress {
+            display: none;
+            margin-top: 12px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #007bff;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+        }
+        
+        /* Batch results display */
+        .batch-results {
+            display: none;
+            margin-top: 12px;
+            padding: 8px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .result-item {
+            font-size: 12px;
+            margin-bottom: 4px;
+            padding: 4px;
+            border-radius: 3px;
+        }
+        
+        .result-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .result-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Disabled state for inactive sections */
+        .single-tab-section:not(.active),
+        .tab-list-section:not(.active) {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        /* Login prompt styles */
+        .login-prompt {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+        
+        .login-prompt h4 {
+            margin: 0 0 12px 0;
+            color: #495057;
+        }
+        
+        .login-prompt p {
+            margin: 8px 0;
+            color: #6c757d;
+            font-size: 13px;
+        }
+        
+        .login-prompt-buttons {
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .btn-login {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-login:hover {
+            background: #0056b3;
+        }
+        
+        .btn-refresh {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .btn-refresh:hover {
+            background: #1e7e34;
+        }
+        
+        /* Tab close confirmation info */
+        .tab-close-info {
+            background: #e7f3ff;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #0c5460;
+        }
+
+        /* Copyright status badge styles */
+        .copyright-status-badge {
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copyright-status-badge.checking {
+            background: #e7f3ff;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .copyright-status-badge.allowed {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .copyright-status-badge.blocked {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .copyright-status-badge.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .copyright-badge-icon {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .copyright-badge-content {
+            flex: 1;
+        }
+
+        .copyright-badge-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .copyright-badge-details {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .copyright-alternative-link {
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .copyright-alternative-link a {
+            color: inherit;
+            text-decoration: underline;
+        }
+
+        /* Update content preview to have less bottom margin when badge is shown */
+        .content-preview.has-copyright-badge .content-title {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with logo and login status -->
+    <div class="header">
+        <div class="header-left">
+            <img src="icons/icon24.png" alt="Logo" onerror="this.style.display='none'">
+            <h3>Uzei - Literature Review</h3>
+        </div>
+        <div class="login-status logged-out" id="login-status">
+            Checking...
+        </div>
+    </div>
+
+    <!-- Mode toggle between single tab and multi-tab -->
+    <div class="mode-toggle">
+        <button class="mode-btn active" id="single-mode-btn">Current Tab</button>
+        <button class="mode-btn" id="multi-mode-btn">Multiple Tabs</button>
+    </div>
+
+    <!-- Multi-tab processing section -->
+    <div class="tab-list-section" id="multi-tab-section">
+        <!-- Tab close confirmation info -->
+        <div class="tab-close-info">
+            📝 <strong>Batch Processing:</strong> After processing, you'll be asked if you want to close successfully processed tabs to keep your workspace organized.
+        </div>
+        
+        <!-- Tab selection controls -->
+        <div class="tab-controls">
+            <span class="tab-count" id="tab-count">Loading tabs...</span>
+            <div class="batch-controls">
+                <button class="btn-sm" id="select-all-tabs">All</button>
+                <button class="btn-sm" id="select-none-tabs">None</button>
+                <button class="btn-sm" id="select-valid-tabs">Valid Only</button>
+            </div>
+        </div>
+        
+        <!-- List of available tabs -->
+        <div class="tab-list" id="tab-list">
+            <!-- Tabs will be populated here -->
+        </div>
+        
+        <!-- Project selection for multi-tab -->
+        <div class="form-group">
+            <label class="form-label" for="project-select-multi">Select Project:</label>
+            <select class="form-control" id="project-select-multi" disabled>
+                <option value="">Please log in first</option>
+            </select>
+        </div>
+
+        <!-- Source type selection for multi-tab -->
+        <div class="form-group">
+            <label class="form-label" for="source-type-multi">Default Source Type:</label>
+            <select class="form-control" id="source-type-multi" disabled>
+                <option value="web_article">Web Article</option>
+                <option value="blog_post">Blog Post</option>
+                <option value="research_paper">Research Paper</option>
+                <option value="news_article">News Article</option>
+                <option value="documentation">Documentation</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <!-- Multi-tab processing button -->
+        <button class="btn btn-batch" id="process-selected-tabs" disabled>
+            Please Log In First
+        </button>
+        
+        <!-- Batch processing progress -->
+        <div class="batch-progress" id="batch-progress">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-text" id="progress-text">Processing tabs...</div>
+        </div>
+        
+        <!-- Batch processing results -->
+        <div class="batch-results" id="batch-results">
+            <!-- Results will be shown here -->
+        </div>
+    </div>
+
+    <!-- Single tab processing section -->
+    <div class="single-tab-section active" id="single-tab-section">
+        <!-- Content preview -->
+        <div class="content-preview" id="content-preview" style="display: none;">
+            <!-- ADD THIS: Copyright status badge -->
+            <div class="copyright-status-badge" id="copyright-status-badge" style="display: none;">
+                <!-- Will be populated by JavaScript -->
+            </div>
+            
+            <div class="content-title" id="content-title"></div>
+            <div class="content-meta" id="content-meta"></div>
+            <div class="content-preview-text" id="content-text"></div>
+        </div>
+
+        <!-- Project selection for single tab -->
+        <div class="form-group">
+            <label class="form-label" for="project-select">Select Project:</label>
+            <select class="form-control" id="project-select" disabled>
+                <option value="">Please log in first</option>
+            </select>
+        </div>
+
+        <!-- Source type selection for single tab -->
+        <div class="form-group">
+            <label class="form-label" for="source-type">Source Type:</label>
+            <select class="form-control" id="source-type" disabled>
+                <option value="web_article">Web Article</option>
+                <option value="blog_post">Blog Post</option>
+                <option value="research_paper">Research Paper</option>
+                <option value="news_article">News Article</option>
+                <option value="documentation">Documentation</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <!-- Single tab processing buttons -->
+        <button class="btn btn-primary" id="add-to-project" disabled>
+            Please Log In First
+        </button>
+
+        <button class="btn btn-secondary" id="refresh-content" disabled>
+            Re-extract Content
+        </button>
+    </div>
+
+    <!-- Status message container -->
+    <div id="status-container"></div>
+
+    <!-- Settings link -->
+    <div class="settings-link">
+        <a href="#" id="open-settings">Extension Settings</a>
+    </div>
+
+    <!-- Load JavaScript -->
+    <script src="popup.js"></script>
+</body>
+</html>

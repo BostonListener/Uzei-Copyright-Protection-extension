@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Uzei - Literature Review",
+  "version": "3.0",
+  "description": "Collect web articles and papers for your Uzei literature review project with copyright protection",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage",
+    "contextMenus",
+    "notifications",
+    "alarms",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://uzei.boslis.com/*",
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "exclude_matches": [
+        "*://*/*.pdf",
+        "*://*/*.pdf?*",
+        "*://*/*.pdf#*"
+      ]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Add to Uzei Literature Review"
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "academic_dblist.json",
+        "copyright-checker.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
