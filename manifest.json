@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Uzei - Literature Review",
-  "version": "3.0",
+  "name": "Uzei - Literature Review - CopyRightProtect",
+  "version": "1.0",
   "description": "Collect web articles and papers for your Uzei literature review project with copyright protection",
   "permissions": [
     "tabs",
